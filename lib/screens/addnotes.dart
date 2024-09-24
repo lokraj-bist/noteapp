@@ -47,7 +47,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     title: controller1.text,
                     description: controller2.text,
                   );
-                  Navigator.pop(context, newNote); // Return the new note to the main screen
+                  Navigator.pop(context, newNote); 
                 }
               },
               child: Text('Save'),

@@ -16,7 +16,6 @@ class notess extends StatefulWidget {
 class _appState extends State<notess>{
   List<notes> _list = [];
 
-  // Load saved data
   loadData() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     List<String>? notesJson = sp.getStringList('notes');
@@ -24,52 +23,49 @@ class _appState extends State<notess>{
       setState(() {
         _list = notesJson
             .map((note) => notes.fromJson(json.decode(note)))
-            .toList(); // Convert saved JSON data back into model objects
+            .toList(); 
       });
     }
   }
 
-  // Save current list of notes
   saveData() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     List<String> noteJson = _list
         .map((note) => json.encode(note.toJson()))
-        .toList(); // Convert notes to JSON format
-    sp.setStringList('notes', noteJson); // Save the list as strings
+        .toList(); 
+    sp.setStringList('notes', noteJson); 
   }
 
-  // Navigate to AddNoteScreen and handle result
+  
   Future<void> navigateToAddNoteScreen() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AddNoteScreen()), // Go to AddNoteScreen
+      MaterialPageRoute(builder: (context) => AddNoteScreen()), 
     );
 
     if (result != null && result is notes) {
       setState(() {
-        _list.add(result); // Add new note to the list
+        _list.add(result); 
       });
-      saveData(); // Save data after adding
+      saveData(); 
     }
   }
 
-  // Delete a note
   deleteData(int index) {
     setState(() {
       _list.removeAt(index);
-      saveData(); // Save updated list after deleting
+      saveData(); 
     });
   }
 
   @override
   void initState() {
-    loadData(); // Load saved data when app starts
+    loadData(); 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -85,7 +81,7 @@ class _appState extends State<notess>{
       body: Column(
         children: [
         Expanded(
-          child: _list.isEmpty?Center(child: CupertinoActivityIndicator(),) : ListView.builder(
+          child: _list.isEmpty?Center(child: Text('Empty'),) : ListView.builder(
             itemCount: _list.length,
             itemBuilder: (context,index){
               return ListTile(
